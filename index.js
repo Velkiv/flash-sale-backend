@@ -25,12 +25,13 @@ const order = [
     { id: 2, user_id: 123, product_id: 2 },
 ];
 
-app.get('/product/:id', (req, res) => {
+app.get('/products/:id', (req, res) => {
     const id = parseInt(req.params.id)
-    res.json(product)
+    const found = product.find((p)=> p.id ===id)
+    res.json(found)
 })
 
-app.get('/order', (req, res) => {
+app.get('/orders', (req, res) => {
     res.json(order)
 })
 

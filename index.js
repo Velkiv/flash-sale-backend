@@ -1,6 +1,16 @@
+const Pool = require('pg').Pool
+const pool = new Pool({
+    user: "ta",
+    host: "localhost",
+    database: "flash-sale",
+    password: "ServBay.dex"
+})
+
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
-const port = process.env.port || 3000;
+const port = process.env.PORT || 2000;
 
 app.use(express.json())
 
@@ -14,7 +24,7 @@ const order = [
     { id: 2, user_id: 123, product_id: 2 },
 ];
 
-app.get('/product', (req, res) => {
+app.get('/product/:id', (req, res) => {
     res.json(product)
 })
 

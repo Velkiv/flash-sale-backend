@@ -1,16 +1,17 @@
 const Pool = require('pg').Pool
-const pool = new Pool({
-    user: "ta",
-    host: "localhost",
-    database: "flash-sale",
-    password: "ServBay.dex"
-})
+
 
 require('dotenv').config();
 
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 2000;
+const pool = new Pool({
+    user: process.env.DBUSER,
+    host: process.env.DBHOST,
+    database: process.env.DBSOURCE,
+    password: process.env.DBPASSWORD,
+})
 
 app.use(express.json())
 
@@ -25,6 +26,7 @@ const order = [
 ];
 
 app.get('/product/:id', (req, res) => {
+    const id = parseInt(req.params.id)
     res.json(product)
 })
 

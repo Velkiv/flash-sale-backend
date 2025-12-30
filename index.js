@@ -11,6 +11,7 @@ const pool = new Pool({
     host: process.env.DBHOST,
     database: process.env.DBSOURCE,
     password: process.env.DBPASSWORD,
+    port: process.env.DBPORT
 })
 
 app.use(express.json())
@@ -25,14 +26,31 @@ const order = [
     { id: 2, user_id: 123, product_id: 2 },
 ];
 
+
+app.post('/flash-sale/buy', (req, res) => {
+
+})
+
 app.get('/products/:id', (req, res) => {
     const id = parseInt(req.params.id)
-    const found = product.find((p)=> p.id ===id)
-    res.json(found)
+
+    pool.query('SELECT * FROM instance.product WHERE id = $1', [id], (error, results) => {
+        if (error) {
+        throw error
+        }
+        res.json(results.rows)
+    })
+    // const found = product.find((p)=> p.id ===id)
+    // res.json(found)
 })
 
 app.get('/orders', (req, res) => {
-    res.json(order)
+    pool.query('SELECT * FROM instance.order ORDER BY id ASC', (error, results) => {
+    if (error) {
+        throw error
+    }
+        res.json(results.rows)
+    })
 })
 
 
